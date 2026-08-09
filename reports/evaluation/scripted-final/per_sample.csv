@@ -1,0 +1,10 @@
+﻿scenario_id,split,sample_kind,target_valence,target_arousal,target_label,prediction_valence,prediction_arousal,prediction_label,valence_abs_error,arousal_abs_error,expected_conflicts,predicted_conflicts,active_modalities,error
+vision-positive_text-negative-01,scripted,scripted,0.0,0.4,neutral,0.0,0.20000000000000004,neutral,0.0,0.19999999999999998,vision_text_valence,vision_text_valence,vision;text,
+vision-positive_text-negative-02,scripted,scripted,0.0,0.4,neutral,-0.03562874251497006,0.5209580838323353,neutral,0.03562874251497006,0.1209580838323353,vision_text_valence,vision_text_valence,vision;text,
+vision-positive_text-positive-control,scripted,scripted,0.7,0.3,positive,0.7250000000000001,0.325,excited,0.025000000000000133,0.025000000000000022,,,vision;text,
+vision-high_audio-low-01,scripted,scripted,0.2,0.0,neutral,0.2,-0.038095238095238126,positive,0.0,0.038095238095238126,vision_audio_arousal,vision_audio_arousal,vision;audio,
+vision-high_audio-low-02,scripted,scripted,0.2,0.0,neutral,0.1,-0.046518264840182656,neutral,0.1,0.046518264840182656,vision_audio_arousal,vision_audio_arousal,vision;audio,
+vision-high_audio-high-control,scripted,scripted,0.2,0.8,excited,0.2,0.773809523809524,excited,0.0,0.026190476190476097,,,vision;audio,
+text-high_audio-low-01,scripted,scripted,0.4,0.0,neutral,0.4,-0.038095238095238126,positive,0.0,0.038095238095238126,text_audio_arousal,text_audio_arousal,text;audio,
+text-high_audio-low-02,scripted,scripted,0.4,0.0,neutral,0.4,0.0008547008547008871,positive,0.0,0.0008547008547008871,text_audio_arousal,text_audio_arousal,text;audio,
+text-high_audio-high-control,scripted,scripted,0.4,0.8,excited,0.4,0.773809523809524,excited,0.0,0.026190476190476097,,,text;audio,

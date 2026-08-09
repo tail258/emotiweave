@@ -1,0 +1,214 @@
+{
+  "participant": {
+    "sample_count": 0,
+    "failed_count": 0,
+    "valence_mae": null,
+    "arousal_mae": null,
+    "valence_pearson_r": null,
+    "arousal_pearson_r": null,
+    "label_accuracy": null,
+    "macro_f1": null,
+    "unknown_prediction_rate": null,
+    "confusion_matrix": {
+      "neutral": {
+        "neutral": 0,
+        "calm": 0,
+        "positive": 0,
+        "excited": 0,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      },
+      "calm": {
+        "neutral": 0,
+        "calm": 0,
+        "positive": 0,
+        "excited": 0,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      },
+      "positive": {
+        "neutral": 0,
+        "calm": 0,
+        "positive": 0,
+        "excited": 0,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      },
+      "excited": {
+        "neutral": 0,
+        "calm": 0,
+        "positive": 0,
+        "excited": 0,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      },
+      "low": {
+        "neutral": 0,
+        "calm": 0,
+        "positive": 0,
+        "excited": 0,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      },
+      "tense": {
+        "neutral": 0,
+        "calm": 0,
+        "positive": 0,
+        "excited": 0,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      }
+    },
+    "conflict_precision": null,
+    "conflict_recall": null,
+    "conflict_f1": null
+  },
+  "scripted": {
+    "sample_count": 9,
+    "failed_count": 0,
+    "valence_mae": 0.01784763805721891,
+    "arousal_mae": 0.057989164233183024,
+    "valence_pearson_r": 0.990747605547283,
+    "arousal_pearson_r": 0.969838329586835,
+    "label_accuracy": 0.5555555555555556,
+    "macro_f1": 0.24444444444444446,
+    "unknown_prediction_rate": 0.0,
+    "confusion_matrix": {
+      "neutral": {
+        "neutral": 3,
+        "calm": 0,
+        "positive": 3,
+        "excited": 0,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      },
+      "calm": {
+        "neutral": 0,
+        "calm": 0,
+        "positive": 0,
+        "excited": 0,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      },
+      "positive": {
+        "neutral": 0,
+        "calm": 0,
+        "positive": 0,
+        "excited": 1,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      },
+      "excited": {
+        "neutral": 0,
+        "calm": 0,
+        "positive": 0,
+        "excited": 2,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      },
+      "low": {
+        "neutral": 0,
+        "calm": 0,
+        "positive": 0,
+        "excited": 0,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      },
+      "tense": {
+        "neutral": 0,
+        "calm": 0,
+        "positive": 0,
+        "excited": 0,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      }
+    },
+    "conflict_precision": 1.0,
+    "conflict_recall": 1.0,
+    "conflict_f1": 1.0
+  },
+  "overall": {
+    "sample_count": 9,
+    "failed_count": 0,
+    "valence_mae": 0.01784763805721891,
+    "arousal_mae": 0.057989164233183024,
+    "valence_pearson_r": 0.990747605547283,
+    "arousal_pearson_r": 0.969838329586835,
+    "label_accuracy": 0.5555555555555556,
+    "macro_f1": 0.24444444444444446,
+    "unknown_prediction_rate": 0.0,
+    "confusion_matrix": {
+      "neutral": {
+        "neutral": 3,
+        "calm": 0,
+        "positive": 3,
+        "excited": 0,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      },
+      "calm": {
+        "neutral": 0,
+        "calm": 0,
+        "positive": 0,
+        "excited": 0,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      },
+      "positive": {
+        "neutral": 0,
+        "calm": 0,
+        "positive": 0,
+        "excited": 1,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      },
+      "excited": {
+        "neutral": 0,
+        "calm": 0,
+        "positive": 0,
+        "excited": 2,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      },
+      "low": {
+        "neutral": 0,
+        "calm": 0,
+        "positive": 0,
+        "excited": 0,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      },
+      "tense": {
+        "neutral": 0,
+        "calm": 0,
+        "positive": 0,
+        "excited": 0,
+        "low": 0,
+        "tense": 0,
+        "unknown": 0
+      }
+    },
+    "conflict_precision": 1.0,
+    "conflict_recall": 1.0,
+    "conflict_f1": 1.0
+  },
+  "record_count": 9,
+  "scope_note": "Participant and scripted records are reported separately; scripted records are deterministic fusion regression only."
+}

@@ -1,0 +1,7 @@
+﻿target\prediction,neutral,calm,positive,excited,low,tense,unknown
+neutral,3,0,3,0,0,0,0
+calm,0,0,0,0,0,0,0
+positive,0,0,0,1,0,0,0
+excited,0,0,0,2,0,0,0
+low,0,0,0,0,0,0,0
+tense,0,0,0,0,0,0,0
