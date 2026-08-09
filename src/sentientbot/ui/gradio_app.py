@@ -611,6 +611,8 @@ def build_interface(app: SentientApplication) -> Any:
             <footer class="sb-footer">
               EmotiWeave 只估计当前可观察线索，不用于心理诊断、医疗决策或人员评估。
               默认日志不保存原始音视频与对话文本。
+              <a href="https://github.com/tail258/emotiweave"
+                 target="_blank" rel="noopener noreferrer">查看对应源代码</a>
             </footer>
             """
         )

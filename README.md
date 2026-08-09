@@ -150,6 +150,22 @@ src/sentientbot/
 - 情绪状态始终是可纠正的观察结果，以用户自述为准。
 - 默认配置只适合本机单用户运行；开放远程访问前需要补充身份验证、访问控制和数据保留策略。
 
+## ModelScope 创空间部署
+
+基础演示版使用 Gradio 6.17.3、Python 3.12 和免费 CPU 资源。平台从仓库根目录运行：
+
+```bash
+python app.py --check
+python app.py
+```
+
+`app.py` 会在启动时准备 Face Landmarker 模型，并读取 `config.modelscope.yaml`。公网配置
+关闭本地 Ollama、Whisper 转写、TTS 和持久事件日志，保留面部、文本、语音韵律、融合、
+冲突提示和用户纠正。该基础版本限制重型操作并发为 1，但未实现完整的多浏览器会话隔离，
+仅适合低流量作品演示，不适合作为正式公共服务。
+
+网络版对应源代码：[GitHub · tail258/emotiweave](https://github.com/tail258/emotiweave)。
+
 ## 许可证
 
 本项目采用 [GNU Affero General Public License v3.0 only](LICENSE)（SPDX：`AGPL-3.0-only`）。
