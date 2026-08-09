@@ -26,3 +26,4 @@ submission/.obsidian/
 reports/evaluation/scripted/
 reports/evaluation/tuning/
 reports/evaluation/**/*.html
+.worktrees/
