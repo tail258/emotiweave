@@ -212,7 +212,6 @@ class SentientApplication:
         ollama_reachable = self.brain.ping() if ping_ollama else None
         return {
             "application": self.config.system.name,
-            "hardware_layer": "removed",
             "dependencies": dependencies,
             "vision": {
                 "available": self.vision.available,

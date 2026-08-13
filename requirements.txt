@@ -1,6 +1,6 @@
 # 推荐使用：py -3.11 -m pip install -e .
 faster-whisper>=1.1.0
-gradio==6.17.3
+gradio>=5.0,<7
 mediapipe>=0.10.14
 numpy>=1.26,<3
 opencv-python>=4.9

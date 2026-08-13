@@ -1,172 +1,137 @@
 # EmotiWeave｜情绪织谱
 
-EmotiWeave（情绪织谱）是一个本地运行的多模态情绪观察与对话工具。它融合摄像头、文本和语音韵律中的可观察线索，生成连续的效价—激活状态、置信度和冲突说明，并允许用户随时纠正判断。
+EmotiWeave 是我用来探索多模态情绪识别的一套本地应用。它不会把某个表情或某句话直接
+等同于人的真实情绪，而是把摄像头、文字和语音韵律中能够观察到的线索放在一起，给出
+连续的效价—激活度、置信度和模态冲突说明。判断不准确时，使用者可以立即纠正它。
 
-系统不将线索估计解释为真实情绪，也不用于心理诊断或人员评估。
+这个项目最早来自一个桌面虚拟助手原型。后来我逐渐把重点收拢到情绪线索本身：不同模态
+是否一致、证据何时过期、置信度从哪里来，以及系统不确定时应该怎样表达。现在仓库保留的
+就是这部分能够在本地运行、测试和继续改进的实现。
 
-## 功能
+> 这里的输出是对可观察线索的估计，不是心理诊断，也不应被用于招聘、教育监控、医疗或
+> 其他针对个人的高风险判断。
 
-- **连续状态跟踪**：对视觉线索进行时间平滑、迟滞处理和 1.5 秒过期控制。
-- **三模态融合**：分别处理面部、文本和语音韵律证据，并按置信度融合。
-- **冲突说明**：区分视觉—文本效价冲突、视觉—语音激活冲突和文本—语音激活冲突。
-- **可解释语音特征**：提取能量、动态范围、音高中位数、音高变化、语速、停顿比和有声占比。
-- **本地对话**：通过 Ollama 流式生成回复，启动时后台预热并保持模型驻留；不可用时保留确定性降级回复。
-- **用户纠正**：支持积极、消极、准确和暂不判断四种校正操作。
-- **数据最小化**：默认不保存原始音视频或对话文本，仅记录必要的派生状态与运行信息。
+## 现在能做什么
 
-## 环境要求
+- 用 MediaPipe Face Landmarker 提取面部线索，并经过个人基线、时间平滑和过期控制生成
+  连续视觉状态。
+- 从中文文本中提取可解释的效价与激活线索。
+- 从 WAV 录音中计算能量、音高变化、语速、停顿比和有声占比；语音韵律只参与激活度
+  判断，不直接猜测积极或消极。
+- 按置信度融合视觉、文本和语音证据，并指出模态之间的明显冲突。
+- 在 Gradio 界面中查看状态轨迹、派生证据和冲突原因，并对当前结果进行纠正。
+- 可选连接本机 Ollama 生成回复；Ollama 不可用时仍可使用情绪识别和确定性降级回复。
+- 默认不保存摄像头帧和录音，也不记录对话原文。
 
-- Windows
+## 环境
+
+- Windows 10 或 Windows 11
 - Python 3.11 或 3.12
-- 可选：Ollama
+- 摄像头；麦克风可选
+- Ollama 可选，仅用于本地对话回复
 
-## 安装
+## 安装与启动
+
+在 PowerShell 中进入仓库目录后执行：
 
 ```powershell
 py -3.11 -m venv .venv
+Set-ExecutionPolicy -Scope Process Bypass
 .\.venv\Scripts\Activate.ps1
-py -3.11 -m pip install --upgrade pip
-py -3.11 -m pip install -e .
-py -3.11 scripts\download_models.py
-py -3.11 main.py --check
+python -m pip install --upgrade pip
+python -m pip install -e .
+python scripts\download_models.py
+python main.py --check
+.\start.ps1
 ```
 
-启用本地对话：
+启动脚本通过预检后会打开 `http://127.0.0.1:7860/`。如果不想使用脚本，也可以运行：
+
+```powershell
+python main.py
+```
+
+更完整的安装、配置和排错说明见 [docs/RUNNING.md](docs/RUNNING.md)。
+
+## 可选：启用 Ollama
 
 ```powershell
 ollama serve
 ollama pull qwen2.5:3b
+python main.py
 ```
 
-模型名称、服务地址、超时时间、启动预热、流式输出和驻留时间可在
-`config.yaml` 的 `brain` 节中调整。`warmup_on_start` 与 `stream` 默认开启，
-`keep_alive` 默认设为 15 分钟。
+模型、服务地址、超时、流式输出和驻留时间都可以在 `config.yaml` 的 `brain` 节中调整。
 
-## 启动
+## 如何使用
 
-一键启动：
+1. 允许浏览器访问摄像头，保持自然表情片刻，让系统建立会话内基线。
+2. 输入文字或提交录音，观察各模态怎样改变当前状态。
+3. 展开派生证据，检查真正参与融合的线索和置信度。
+4. 使用纠正按钮标记结果是否准确，或者让系统暂时不要判断。
+5. 需要重新开始时清空当前会话。
 
-```powershell
-Set-ExecutionPolicy -Scope Process Bypass
-.\start.ps1
-```
+## 评估
 
-或直接启动：
-
-```powershell
-py -3.11 main.py
-```
-
-默认地址为 `http://127.0.0.1:7860/`。
-
-## 使用
-
-1. 允许浏览器访问摄像头，系统开始生成连续视觉状态。
-2. 输入文字或录制语音，系统融合当前会话中的多模态线索。
-3. 查看效价—激活轨迹、置信度和冲突原因。
-4. 使用校正按钮修正当前判断或暂时关闭判断。
-5. 在“查看派生证据”中检查各模态的可解释输入。
-
-## 验证
+仓库带有一组确定性的冲突场景，用于检查融合、冲突检测和报告流程。它们是工程回归样本，
+不是受试者数据，也不能用来宣称真实人群上的识别准确率。
 
 ```powershell
-py -3.11 -m pytest -q
-py -3.11 main.py --check
-```
-
-核心领域测试不依赖摄像头、麦克风或 Ollama。
-
-## 离线情绪识别评估
-
-评估以连续效价—激活度为主输出，同时报告派生离散标签的准确率、宏平均 F1、Unknown 率、混淆矩阵和三类模态冲突的 precision/recall/F1。参与者数据与确定性脚本回归分开统计；脚本样本不能被当作真实人群准确率。
-
-建立并校验标注数据集：
-
-```powershell
-py -3.11 scripts\collect_evaluation_sample.py --validate data\evaluation\manifest.jsonl
-```
-
-开发集回放和参数搜索：
-
-```powershell
-py -3.11 scripts\replay_scenarios.py `
-  --dataset data\evaluation\manifest.jsonl `
-  --config config.yaml `
-  --split dev `
-  --output reports\evaluation\runs\dev-default\predictions.jsonl
-
-py -3.11 scripts\tune_fusion.py `
-  --dataset data\evaluation\manifest.jsonl `
-  --config config.yaml `
-  --output reports\evaluation\tuning
-```
-
-冻结配置后，只对留出的测试集运行一次：
-
-```powershell
-py -3.11 scripts\replay_scenarios.py `
-  --dataset data\evaluation\manifest.jsonl `
-  --config config.yaml `
-  --split test `
-  --output reports\evaluation\runs\test-final\predictions.jsonl
-
-py -3.11 scripts\evaluate_sessions.py `
-  --predictions reports\evaluation\runs\test-final\predictions.jsonl `
-  --output reports\evaluation\final
-```
-
-脚本冲突回归不需要摄像头、麦克风、Ollama 或 Whisper：
-
-```powershell
-py -3.11 scripts\replay_scenarios.py `
+python scripts\replay_scenarios.py `
   --dataset evaluation\datasets\scripted_conflicts.jsonl `
   --config config.yaml `
   --split scripted `
   --output reports\evaluation\runs\scripted\predictions.jsonl
+
+python scripts\evaluate_sessions.py `
+  --predictions reports\evaluation\runs\scripted\predictions.jsonl `
+  --output reports\evaluation\runs\scripted-report
 ```
 
-## 结构
+仓库中的 `reports/evaluation/scripted-final/` 是这组脚本场景的参考输出。真人样本采集、
+匿名分组和 dev/test 隔离方法见 [evaluation/README.md](evaluation/README.md)；仓库不附带任何
+真人样本或原始媒体。
+
+## 验证开发环境
+
+安装开发依赖后运行：
+
+```powershell
+python -m pip install -e ".[dev]"
+python -m pytest -q
+python -m ruff check src scripts tests main.py
+python main.py --check
+```
+
+单元测试和脚本回归不需要摄像头、麦克风、Ollama 或 Whisper 模型。
+
+## 代码结构
 
 ```text
 src/sentientbot/
-├── affect/       # 校准、时序跟踪、三模态融合与响应策略
-├── evaluation/   # 标注数据、离线回放、指标、参数搜索与报告
+├── affect/       # 校准、时序跟踪、融合与响应策略
+├── dialogue/     # Ollama 和本机语音播报
+├── evaluation/   # 数据校验、回放、指标、搜索与报告
 ├── perception/   # 面部、文本、ASR 与语音韵律分析
-├── dialogue/     # Ollama 与本机语音播报
-├── storage/      # 隐私约束下的事件日志
-├── ui/           # Gradio 工作界面
-├── app.py        # 应用编排
+├── storage/      # 隐私约束下的派生事件日志
+├── ui/           # Gradio 界面
+├── app.py        # 应用编排与降级处理
 ├── config.py     # 配置模型
-├── models.py     # 领域数据
+├── models.py     # 领域数据结构
 └── session.py    # 会话状态
 ```
 
-详细设计见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)。
+内部包名 `sentientbot` 沿用了早期原型，项目和发行名称统一为 EmotiWeave。详细模块关系见
+[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)。
 
-## 使用边界
+## 已知边界
 
-- 不用于心理诊断、医疗建议、招聘筛选、课堂监控或其他人员评估。
-- 语音韵律只参与激活度估计，不直接推断积极或消极效价。
-- 情绪状态始终是可纠正的观察结果，以用户自述为准。
-- 默认配置只适合本机单用户运行；开放远程访问前需要补充身份验证、访问控制和数据保留策略。
-
-## ModelScope 创空间部署
-
-基础演示版使用 Gradio 6.17.3、Python 3.12 和免费 CPU 资源。平台从仓库根目录运行：
-
-```bash
-python app.py --check
-python app.py
-```
-
-`app.py` 会在启动时准备 Face Landmarker 模型，并读取 `config.modelscope.yaml`。公网配置
-关闭本地 Ollama、Whisper 转写、TTS 和持久事件日志，保留面部、文本、语音韵律、融合、
-冲突提示和用户纠正。该基础版本限制重型操作并发为 1，但未实现完整的多浏览器会话隔离，
-仅适合低流量作品演示，不适合作为正式公共服务。
-
-网络版对应源代码：[GitHub · tail258/emotiweave](https://github.com/tail258/emotiweave)。
+- 表情和韵律会受到个体、文化、光照、角度、麦克风与环境噪声影响。
+- 文本分析采用可解释规则，不等同于完整的语义理解。
+- 当前应用按本机单用户场景设计，没有公网服务所需的认证和会话隔离。
+- 使用者的自述和纠正始终比系统估计更可靠。
 
 ## 许可证
 
-本项目采用 [GNU Affero General Public License v3.0 only](LICENSE)（SPDX：`AGPL-3.0-only`）。
-通过网络向用户提供修改版服务时，请特别留意该许可证关于提供对应源代码的要求。
+本项目采用 [GNU Affero General Public License v3.0 only](LICENSE)，SPDX 标识为
+`AGPL-3.0-only`。通过网络提供修改版服务时，也需要按照许可证提供对应源代码。

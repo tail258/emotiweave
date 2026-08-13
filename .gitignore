@@ -22,7 +22,6 @@ assets/models/*.task
 .codex-output/
 data/note-backups/
 docs/superpowers/
-submission/.obsidian/
 reports/evaluation/scripted/
 reports/evaluation/tuning/
 reports/evaluation/**/*.html
